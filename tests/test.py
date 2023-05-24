@@ -1,20 +1,64 @@
+import os
 import pytest
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common import desired_capabilities as DesiredCapabilities
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions
+from selenium.common.exceptions import NoSuchElementException
+
+
+USER = os.getenv('BROWSERSTACK_USER')
+PASSWORD = os.environ.get('BROWSERSTACK_PASSWORD')
 
 def test_example(selenium):
-    selenium.get('https://bstackdemo.com/')
+    '''
+    cap = selenium.DesiredCapabilities.copy()
+    cap['bstack:options']['maskCommands'] = 'setValues'
+    selenium.set_capability('bstack:options', cap['bstack:options'])
+    match selenium.name():
+     case 'Chrome':
+    if(selenium instanceof ChromeDriver):
+        #options = selenium.ChromeOptions()
+        cap = selenium.CHROME.copy()
+        cap['bstack:options']['maskCommands'] = 'setValues'
+        selenium = webdriver.Remote(options = options, desired_capabilities=cap)
+    # case 'Firefox':
+    else if(selenium instanceof FirefoxDriver):
+        #options = selenium.FirefoxOptions()
+        cap = selenium.FIREFOX.copy() 
+        cap['bstack:options']['maskCommands'] = 'setValues'
+        selenium = webdriver.Remote(options = options, desired_capabilities=cap)
+    # case 'WebKitGTK':
+    else if(selenium instanceof WebKitGTKDriver):
+       # options = selenium.WebKitGTKoptions()
+        cap = selenium.WEBKITGTK.copy() 
+        cap['bstack:options']['maskCommands'] = 'setValues'
+        selenium = webdriver.Remote(options = options, desired_capabilities=cap)
+    else:
+        selenium.execute_script('browserstack_executor: {"action": "annotate", "arguments": {"data":"browserName "' + json.dumps.selenium.capabilities['browserName'] + ' has not been coded, "level": "error"}}')
+        '''
+    details = selenium.execute_script('browserstack_executor: {"action": "getSessionDetails"}')
 
-    # locating product on webpage and getting name of the product
-    productText = selenium.find_element(By.XPATH, '//*[@id="1"]/p').text
+    selenium.get('https://automate.browserstack.com/')
+    selenium.implicitly_wait(10)
 
-    # clicking the 'Add to cart' button
-    selenium.find_element(By.XPATH, '//*[@id="1"]/div[4]').click()
+    try:
+        # Look for cookie popup and click accept if present
+        cookie = selenium.find_element(By.ID, 'accept-cookie-notification').click()
+    except NoSuchElementException:
+        # Popup not present
+        pass
 
-    # waiting until the Cart pane has been displayed on the webpage
-    selenium.find_element(By.CLASS_NAME, 'float-cart__content')
+    user = selenium.find_element(By.ID, 'user_email_login')
+    password = selenium.find_element(By.ID, 'user_password' )
+    user.send_keys(USER)
+    password.send_keys(PASSWORD)
 
-    # locating product in cart and getting name of the product in cart
-    productCartText = selenium.find_element(By.XPATH, '//*[@id="__next"]/div/div/div[2]/div[2]/div[2]/div/div[3]/p[1]').text
+    selenium.find_element(By.ID, 'user_submit').click()
 
-    # checking whether product has been added to cart by comparing product name
-    assert productCartText == productText
+    invite_link = selenium.find_element(By.ID, 'invite-link').get_attribute('href')
+
+    assert invite_link is not None
+
+    signout = selenium.find_element(By.ID, 'sign_out_link').click
+
