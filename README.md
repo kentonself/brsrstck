@@ -16,7 +16,7 @@ A test of browserstack using pytest. This is derived from [Browserstack's Pytest
   env\Scripts\activate # on Windows
   ```
 * Install dependencies `pip install -r requirements.txt`
-* To run your automated tests using BrowserStack, you must provide a valid username and access key. This can be done either by providing your username and access key in the `browserstack.yml` configuration file, or by setting the `BROWSERSTACK_USERNAME` and `BROWSERSTACK_ACCESS_KEY` environment variables. Additionally the user login and password for automate.browserstack.com are kept in `BSTACK_USER`  and `BSTACK_PASS`
+* To run your automated tests using BrowserStack, you must provide a valid username and access key. This can be done either by providing your username and access key in the `browserstack.yml` configuration file, or by setting the `BROWSERSTACK_USERNAME` and `BROWSERSTACK_ACCESS_KEY` environment variables. Additionally the user login and password for automate.browserstack.com are kept in `BSTACK_USER`  and `BSTACK_PASSWORD`
 
 ## Run in parallel:
 * To run the test in the configuration file run:
