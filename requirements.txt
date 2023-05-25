@@ -1,4 +1,3 @@
-wheel
 browserstack-local
 jsonmerge
 selenium==4.*
